@@ -54,7 +54,7 @@ abstract class Entity implements \ArrayAccess {
         }
     }
 
-    public function offsetExits($var) {
+    public function offsetExists($var) {
         return isset($this->var) && \is_callable([$this, $var]);
     }
 

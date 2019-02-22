@@ -1,7 +1,7 @@
 <?php
 namespace Frame;
-
-class HTTPRequest {
+use Frame\ApplicationComponent;
+class HTTPRequest extends ApplicationComponent{
 
     public function cookieData($key) {
         return isset($_COOKIE[$key]) ? $_COOKIE[$key] : null;

@@ -25,6 +25,7 @@ abstract class BackController extends ApplicationComponent {
     }
 
     public function execute() {
+
         $method = 'execute'.ucfirst($this->action);
 
         if (!is_callable([$this, $method])) {
@@ -43,12 +44,16 @@ abstract class BackController extends ApplicationComponent {
         {
             throw new \InvalidArgumentException('The module must be a valid string');
         }
+
+        $this->module = $module;
     }
 
     public function setAction($action) {
         if (!is_string($action) || empty($action)) {
             throw new \InvalidArgumentException('The action mus be a valid string');
         }
+
+        $this->action = $action;
     }
 
     public function setView($view) {

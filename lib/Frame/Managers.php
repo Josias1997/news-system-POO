@@ -1,6 +1,8 @@
 <?php
 namespace Frame;
 
+use Model\NewsManagerPDO;
+
 class Managers {
     protected $api = null;
     protected $dao = null;
@@ -11,15 +13,15 @@ class Managers {
         $this->dao = $dao;
     }
 
-    public function getMangerOf($module) {
-        if(!is_string($module) ||($module)) {
-            throw new \InvalidArguementException('The specified module is invalid');
+    public function getManagerOf($module) {
+        if(!is_string($module) || empty($module)) {
+            throw new \InvalidArgumentException('The specified module is invalid');
         }
 
         if (!isset($this->managers[$module])) {
             $manager = '\\Model\\'.$module.'Manager'.$this->api;
 
-            $this->managers[$module] = new $manger($this->dao);
+            $this->managers[$module] = new $manager($this->dao);
         }
 
         return $this->managers[$module];

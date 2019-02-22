@@ -6,18 +6,22 @@ use Frame\HTTPResponse;
 use Frame\Router;
 use Frame\Route;
 use Frame\User;
+use Frame\Config;
 
 abstract class Application {
     protected $httpRequest;
     protected $httpResponse;
     protected $name;
     protected $user;
+    protected $config;
 
     public function __construct() {
-        $this->httpRequest = new HTTPRequest;
-        $this->httpResponse = new HTTPResponse;
+        $this->httpRequest = new HTTPRequest($this);
+        $this->httpResponse = new HTTPResponse($this);
+        $this->user = neW User($this);
+        $this->config = new Config($this);
         $this->name = '';
-        $this->user = neW User;
+        
     }
 
     public function getController() {
@@ -36,7 +40,9 @@ abstract class Application {
 
             $router->addRoute(new Route($route->getAttribute('url'), $route->
             getAttribute('module'), $route->getAttribute('action'), $vars));
+
         }
+        // print_r($routes[0]->attributes[2]);
 
         try {
             $matchedRoute = $router->getRoute($this->httpRequest->requestURI());
@@ -49,9 +55,9 @@ abstract class Application {
                 $this->httpResponse->redirect404();
             }
         }
-
-        $_GET = array_merge($_GET[], $matchedRoute->vars());
-
+        $Get_vars  = array();
+        $Get_vars = $_GET;
+        $_GET = array_merge($Get_vars, $matchedRoute->vars());
         $controllerClass = 'App\\'.$this->name.'\\Modules\\'.$matchedRoute->module().'\\'.$matchedRoute->module().'Controller';
         return new $controllerClass($this, $matchedRoute->module(), $matchedRoute->action());
     }
@@ -68,6 +74,14 @@ abstract class Application {
 
     public function name() {
         return $this->name;
+    }
+
+    public function user() {
+        return $this->user;
+    }
+    
+    public function config() {
+        return $this->config;
     }
 }
 ?>

@@ -2,8 +2,8 @@
 namespace Frame;
 
 use Frame\Page;
-
-class HTTPResponse {
+use Frame\ApplicationComponent;
+class HTTPResponse extends ApplicationComponent{
     protected $page;
 
     public function addHeader($header) {
@@ -24,9 +24,9 @@ class HTTPResponse {
         $this->send();
     }
 
-    public function sent() {
+    public function send() {
 
-        exit($this->page->generatedPage());
+        exit($this->page->getGeneratedPage());
     }
 
     public function setPage(Page $page) {

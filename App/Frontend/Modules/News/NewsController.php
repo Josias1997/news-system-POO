@@ -42,6 +42,35 @@ class NewsController extends BackController {
 
         $this->page->addVar('title', $news->title());
         $this->page->addVar('news', $news);
+        $this->pagge->addVar('comments', $this->managers->getManagerOf('Comments')
+        ->getListOf($news->id()));
+    }
+
+    public function executeInsertComment(HTTPRequest $request) {
+        $this->page->addVar('title', 'Adding a comment');
+
+        if ($request->postExists('pseudo')) {
+            $comment = new Comment([
+                'news' => $request->getData('news'),
+                'author' => $request->postData('pseudo'),
+                'content' => $request->postData('content')
+            ]);
+
+
+            if ($comment->isValid()) {
+                $this->managers->getManagerOf('Comments')
+                ->save($comment);
+
+                $this->app->user()-setFlash('The comment has been added successfully');
+
+                $this->app->httpResponse()->redirect('news-'.$request->getData('news').'.html');
+            }
+            else {
+                $this->page->addVar('errors', $comment->errors());
+            }
+
+            $this->page->addVar('comment', $comment);
+        }
     }
 }
 ?>

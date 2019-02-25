@@ -18,3 +18,28 @@ if ($news['date_add'] != $news['date_modification'])
 <?php 
 } 
 ?>
+
+<p><a href="comment-<?= $news['id'] ?>.html">Add a comment</a></p>
+
+<?php
+if (empty($comments))
+{
+?>
+<p>There isn't any comment. Be the first to make a comment</p>
+<?php
+}
+
+foreach ($comments as $comment)
+{
+?>
+  <fieldset>
+    <legend>
+      Posted by <strong><?= htmlspecialchars($comment['author']) ?></strong> on <?= $comment['date']->format('Y/m/d à H\hi') ?>
+    </legend>
+    <p><?= nl2br(htmlspecialchars($comment['content'])) ?></p>
+  </fieldset>
+<?php
+}
+?>
+
+<p><a href="comment-<?= $news['id'] ?>.html">Add a comment</a></p>

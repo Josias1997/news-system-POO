@@ -8,5 +8,7 @@ abstract class NewsManager extends Manager {
 
 
     abstract public function getUniq($id);
+
+    abstract public function count();
 }
 ?>
